@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <locale.h>
+#pragma setlocale(LC_ALL,"Portuguese")
 
 typedef struct{       
     char nome[81];
@@ -45,7 +46,7 @@ void incluiraluno(disciplina *disc){    //Inclui aluno na disciplina
             fflush(stdin);
             printf("\nEntre com o curso do aluno: "); fgets(disc->turma[i].discente.curso,50,stdin);
             printf("\nEntre com o numero da matrícula: "); scanf("%d", &disc->turma[i].discente.matricula);
-            printf("\nEntre com o CR do aluno: "); scanf("%.2f", &disc->turma[i].discente.cr);
+            printf("\nEntre com o CR do aluno: "); scanf("%f", &disc->turma[i].discente.cr);
         }
         else{
             contador++;
@@ -108,20 +109,20 @@ void imprimirboletim(disciplina *disc){
     }
 }
 
+void fechardisc(disciplina *disc){
+    int i;
+    disc->codigo = ' ';
+    strcpy(disc->nomedis," ");
+    for(i = 0; i < 40; i++){
+        disc->turma[i].discente.matricula = 0;
+    }
+    puts("Disciplina fechada com êxito!");
+}
+
+
 
 
 int main(){
-    int i;
-    disciplina disc;
-    setlocale(LC_ALL, "Portuguese");
-    criardisciplina(&disc);
-    for(i = 0; i < 30; i++){
-        disc.turma[i].discente.matricula = 1;
-    }
-    for(i = 0; i < 30; i++){
-        disc.turma[i].discente.cr = 4.07;
-    }
-    listaraluno(&disc);
-    calcularcrm(&disc);
-    imprimirboletim(&disc);
+    setlocale(LC_ALL, "Portuguese_Brazil.ACP");
+    puts("cachaça pímba");
 }
