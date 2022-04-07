@@ -142,9 +142,6 @@ void fechardisc(disciplina *disc){
     }
 }
 
-
-
-
 int main(){
     setlocale(LC_ALL,"");
     int opcao;
