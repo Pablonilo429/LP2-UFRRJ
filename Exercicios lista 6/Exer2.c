@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <locale.h>
-#pragma setlocale(LC_ALL,"Portuguese")
 
 typedef struct{       
     char nome[81];
@@ -26,9 +25,10 @@ typedef struct{
 }disciplina;
 
 void criardisciplina(disciplina *disc){     //Funcao para criar a disciplina
-    setlocale(LC_ALL, "Portuguese");
     int i;
+    fflush(stdin);
     printf("Entre com o nome da disciplina: ");fgets(disc->nomedis,50,stdin); 
+    fflush(stdin);
     printf("\nEntre com o código da disciplina: ");scanf("%d", &disc->codigo); 
     for(i = 0; i < 40; i++){    //Zerando as matriculas da turma
         disc->turma[i].discente.matricula = 0;
@@ -47,6 +47,7 @@ void incluiraluno(disciplina *disc){    //Inclui aluno na disciplina
             printf("\nEntre com o curso do aluno: "); fgets(disc->turma[i].discente.curso,50,stdin);
             printf("\nEntre com o numero da matrícula: "); scanf("%d", &disc->turma[i].discente.matricula);
             printf("\nEntre com o CR do aluno: "); scanf("%f", &disc->turma[i].discente.cr);
+            break;
         }
         else{
             contador++;
@@ -60,22 +61,35 @@ void incluiraluno(disciplina *disc){    //Inclui aluno na disciplina
 void excluiraluno(disciplina *disc){    //Exclui aluno da disciplina
     int i;
     int matric;
-    scanf("%d", &matric);
-    for(i = 0; i<40; i++){      //Encontra a matricula e zera
-        if(disc->turma[i].discente.matricula == matric){
-            disc->turma[i].discente.matricula = 0;
+    char confirm;
+    fflush(stdin);
+    printf("\nEntre com a matrícula: ");scanf("%d", &matric);
+    puts("Entre com \"s\" para excluir a matrícula");
+    fflush(stdin);
+    scanf("%c", &confirm);
+    if(confirm == 's'){
+        for(i = 0; i<40; i++){      //Encontra a matricula e zera
+            if(disc->turma[i].discente.matricula == matric){
+                disc->turma[i].discente.matricula = 0;
+                break;
+            }
+            else{
+                puts("Matricula inexistente");      //Exibe quando nao acha a matricula
+                break;
+            }
         }
-        else{
-            puts("Matricula inexistente");      //Exibe quando nao acha a matricula
-        }
+        puts("Processo concluído!");
+    }
+    else{
+        puts("Processo cancelado!");
     }
 }
 
 void listaraluno(disciplina *disc){
     int i;
-    int posi;
+    int posi = 0;   //Variavel para posicao
     for(i = 0; i < 40; i++){
-        if(disc->turma[i].discente.matricula != 0){
+        if(disc->turma[i].discente.matricula != 0){     //Imprime a lista de alunos
             posi++;
             printf("%d - Nome do Aluno: %s | Idade: %d | Curso: %s | Cr: %.2f | Matrícula: %d\n",posi, disc->turma[i].discente.nome, disc->turma[i].discente.idade,
             disc->turma[i].discente.curso, disc->turma[i].discente.cr, disc->turma[i].discente.matricula);
@@ -88,7 +102,7 @@ void calcularcrm(disciplina *disc){
     float crm;
     int contador;
     for(i = 0; i < 40; i++){
-        if(disc->turma[i].discente.matricula != 0){
+        if(disc->turma[i].discente.matricula != 0){     //Calcula o CR medio conforme o numero de alunos
             contador++;
             crm = crm + disc->turma[i].discente.cr;
         }
@@ -101,7 +115,7 @@ void imprimirboletim(disciplina *disc){
     int i;
     int posi = 0;
     for(i = 0; i < 40; i++){
-        if(disc->turma[i].discente.matricula != 0){
+        if(disc->turma[i].discente.matricula != 0){     //Imprime o boletim da turma
             posi++;
             printf("%d - Nome de aluno: %s | Curso: %s | Matrícula: %d | Faltas: %d | Nota: %.1f\n", posi, disc->turma[i].discente.nome, disc->turma[i].discente.curso, 
             disc->turma[i].discente.matricula, disc->turma->falta, disc->turma->nota);
@@ -111,18 +125,87 @@ void imprimirboletim(disciplina *disc){
 
 void fechardisc(disciplina *disc){
     int i;
-    disc->codigo = ' ';
-    strcpy(disc->nomedis," ");
-    for(i = 0; i < 40; i++){
-        disc->turma[i].discente.matricula = 0;
+    char confirm;
+    fflush(stdin);
+    puts("Confirme com \"s\" para fechar a disciplina");
+    scanf("%c", &confirm);
+    if(confirm == 's'){
+        disc->codigo = ' ';     //Limpa a variavel codigo
+        strcpy(disc->nomedis," ");  //Limpa o array de char 
+        for(i = 0; i < 40; i++){
+            disc->turma[i].discente.matricula = 0;  //Zera a matricula dos alunos
+        }
+        puts("Disciplina fechada com êxito!");
     }
-    puts("Disciplina fechada com êxito!");
+    else{
+        puts("Processo cancelado!");
+    }
 }
 
 
 
 
 int main(){
-    setlocale(LC_ALL, "Portuguese_Brazil.ACP");
-    puts("cachaça pímba");
+    setlocale(LC_ALL,"");
+    int opcao;
+    disciplina disc;
+    do
+    {
+        puts("Digite o número correspondente a cada opção para acessar");
+        puts("1 - Criar Disciplina");
+        puts("2 - Incluir Aluno");
+        puts("3 - Excluir Aluno");
+        puts("4 - Listar Alunos");
+        puts("5 - Calcular CR Médio");
+        puts("6 - Imprimir Boletim");
+        puts("7 - Fechar Disciplina");
+        puts("8 - Sair");
+
+        scanf("%d", &opcao);
+        system("cls || clear");
+
+        switch (opcao)
+        {
+        case 1:
+            puts("Opção \"Cria Disciplina\" selecionada!");
+            criardisciplina(&disc);
+            break;
+        case 2:
+            puts("Opção \"Incluir Aluno\" selecionada!");
+            incluiraluno(&disc);
+            break;
+        case 3:
+            puts("Opção \"Excluir Aluno\" selecionada!");
+            excluiraluno(&disc);
+            break;
+        case 4:
+            puts("Opção \"Listar Aluno\" selecionada!");
+            listaraluno(&disc);
+            break;
+        case 5:
+            puts("Opção \"Calcular CR Médio\" selecionada!");
+            calcularcrm(&disc);
+            break;
+        case 6:
+            puts("Opção \"Imprimir Boletim\" selecionada!");
+            imprimirboletim(&disc);
+            break;
+        case 7:
+            puts("Opção \"Fechar Disciplina\" selecionada!");
+            fechardisc(&disc);
+            break;
+        case 8:
+            break;
+        default:
+            puts("Opção Inválida");
+            break;
+        }
+
+        system("pause");
+    } while (opcao != 8);
+
+    puts("Obrigado por ver o meu código ;)");
+    puts("By Nilopolitana");
+    system("pause");
+    return 0;
 }
