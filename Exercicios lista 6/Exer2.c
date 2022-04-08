@@ -27,7 +27,7 @@ typedef struct{
 void criardisciplina(disciplina *disc){     //Funcao para criar a disciplina
     int i;
     fflush(stdin);
-    printf("Entre com o nome da disciplina: ");fgets(disc->nomedis,50,stdin); 
+    printf("Entre com o nome da disciplina: ");fgets(disc->nomedis,51,stdin); 
     fflush(stdin);
     printf("\nEntre com o código da disciplina: ");scanf("%d", &disc->codigo); 
     for(i = 0; i < 40; i++){    //Zerando as matriculas da turma
@@ -41,10 +41,10 @@ void incluiraluno(disciplina *disc){    //Inclui aluno na disciplina
     for(i = 0; i < 40; i++){
         if(disc->turma[i].discente.matricula == 0){     //Percorrer turma e adiciona o aluno 
             fflush(stdin);      //Zera os buffers do teclado para a funcao fgets funcionar
-            printf("\nEntre com o nome do aluno: "); fgets(disc->turma[i].discente.nome,80,stdin);
+            printf("\nEntre com o nome do aluno: "); fgets(disc->turma[i].discente.nome,81,stdin);
             printf("\nEntre com a idade do aluno: "); scanf("%d", &disc->turma[i].discente.idade);
             fflush(stdin);
-            printf("\nEntre com o curso do aluno: "); fgets(disc->turma[i].discente.curso,50,stdin);
+            printf("\nEntre com o curso do aluno: "); fgets(disc->turma[i].discente.curso,51,stdin);
             printf("\nEntre com o numero da matrícula: "); scanf("%d", &disc->turma[i].discente.matricula);
             printf("\nEntre com o CR do aluno: "); scanf("%f", &disc->turma[i].discente.cr);
             break;
@@ -60,6 +60,7 @@ void incluiraluno(disciplina *disc){    //Inclui aluno na disciplina
 
 void excluiraluno(disciplina *disc){    //Exclui aluno da disciplina
     int i;
+    int j = 0;
     int matric;
     char confirm;
     fflush(stdin);
@@ -73,9 +74,8 @@ void excluiraluno(disciplina *disc){    //Exclui aluno da disciplina
                 disc->turma[i].discente.matricula = 0;
                 break;
             }
-            else{
-                puts("Matricula inexistente");      //Exibe quando nao acha a matricula
-                break;
+            if(i == 39){
+                puts("Matricula invalida");
             }
         }
         puts("Processo concluído!");
@@ -143,7 +143,7 @@ void fechardisc(disciplina *disc){
 }
 
 int main(){
-    setlocale(LC_ALL,"");
+    setlocale(LC_ALL,"Portuguese");
     int opcao;
     disciplina disc;
     do
