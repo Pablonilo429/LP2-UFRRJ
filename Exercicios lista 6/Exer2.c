@@ -46,7 +46,7 @@ void incluiraluno(disciplina *disc){    //Inclui aluno na disciplina
             fflush(stdin);
             printf("\nEntre com o curso do aluno: "); fgets(disc->turma[i].discente.curso,51,stdin);
             printf("\nEntre com o numero da matrícula: "); scanf("%d", &disc->turma[i].discente.matricula);
-            printf("\nEntre com o CR do aluno: "); scanf("%f", &disc->turma[i].discente.cr);
+            printf("\nEntre com o CR do aluno(Digite com virgula!):"); scanf("%f", &disc->turma[i].discente.cr);
             break;
         }
         else{
@@ -60,7 +60,6 @@ void incluiraluno(disciplina *disc){    //Inclui aluno na disciplina
 
 void excluiraluno(disciplina *disc){    //Exclui aluno da disciplina
     int i;
-    int j = 0;
     int matric;
     char confirm;
     fflush(stdin);
@@ -74,7 +73,8 @@ void excluiraluno(disciplina *disc){    //Exclui aluno da disciplina
                 disc->turma[i].discente.matricula = 0;
                 break;
             }
-            if(i == 39){
+            if(i == 39){        //Caso não exista matrícula na turma
+
                 puts("Matricula invalida");
             }
         }
@@ -100,7 +100,7 @@ void listaraluno(disciplina *disc){
 void calcularcrm(disciplina *disc){
     int i;
     float crm;
-    int contador;
+    int contador = 0;
     for(i = 0; i < 40; i++){
         if(disc->turma[i].discente.matricula != 0){     //Calcula o CR medio conforme o numero de alunos
             contador++;
@@ -108,7 +108,6 @@ void calcularcrm(disciplina *disc){
         }
     }
     printf("\nCR médio dos alunos da disciplina: %.2f\n", crm/contador);
-
 } 
 
 void imprimirboletim(disciplina *disc){
@@ -148,6 +147,7 @@ int main(){
     disciplina disc;
     do
     {
+        fflush(stdin);
         puts("Digite o número correspondente a cada opção para acessar");
         puts("1 - Criar Disciplina");
         puts("2 - Incluir Aluno");
