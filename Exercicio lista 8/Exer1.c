@@ -21,7 +21,7 @@ void preenche(tpFigura *var){
     if (f == NULL)
         printf("\nErro, nao foi possivel abrir o arquivo!");
     else {
-        for(i = 0;i < 2 ;i++){
+        for(i = 0;i < 10 ;i++){
             fflush(stdin);
             puts("Entre com o rotulo: ");
             scanf("%c", &var[i].rotulo);
@@ -41,7 +41,7 @@ void preenche(tpFigura *var){
 
 void imprime(){
     FILE *g;
-    tpFigura aux[2];
+    tpFigura aux[10];
     int i = 0;
  
 
@@ -51,7 +51,7 @@ void imprime(){
     }
     else{
         
-        for(i = 0; i < 2; i++){
+        for(i = 0; i < 10; i++){
             fseek(g,0, SEEK_SET);
             fread(&aux[i], sizeof(tpFigura), 1, g);
             
@@ -66,7 +66,6 @@ void imprime(){
 void apaga(tpFigura *var, char letra){
     FILE *h;
     int i;
-    long pos;
     tpFigura aux;
     
  
@@ -80,10 +79,9 @@ void apaga(tpFigura *var, char letra){
             if(var[i].rotulo == letra){
                
                 var[i].rotulo = '#';
-                pos = ftell(h)-sizeof (tpFigura);
                 fseek (h, i*sizeof(tpFigura), SEEK_SET);
                 fwrite (&var[i].rotulo, sizeof(tpFigura),1,h);
-                    
+                break;
                 
             }
         }
@@ -95,18 +93,19 @@ void apaga(tpFigura *var, char letra){
 
 
 int main(){
-    tpFigura espacoR3[2];
+    tpFigura espacoR3[10];
     char letra;
     
     
     preenche(&espacoR3);
     imprime();
-    puts("Entre com o retulo a ser excluido#: ");
+    puts("Entre com o retulo a ser excluido: ");
     fflush(stdin);
     scanf("%c", &letra);
     apaga(&espacoR3, letra);
-    imprime();
+    puts("Obrigado por ver o meu codigo ;)");
+    puts("By Nilopolitana - Pablo");
 
-
+    system("pause");
     return 0;
 }
