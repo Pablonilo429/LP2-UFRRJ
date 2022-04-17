@@ -111,7 +111,7 @@ void excluiraluno(disciplina *disc){    //Exclui aluno da disciplina
 
 void listaraluno(disciplina *disc){
     int i = 0;
-    int contador = 0;
+    int j = 0;
     FILE *f;
     aluno imprime;
 
@@ -123,14 +123,15 @@ void listaraluno(disciplina *disc){
     }
     else{
         while(!feof(f)){
-            fread(&imprime, sizeof(aluno),1,f);          
-            printf("Aluno: %s | ", imprime.nome);
-            printf("Idade: %d anos | ", imprime.idade);
-            printf("Curso: %s | ", imprime.curso);
-            printf("Matricula: %d | ", imprime.matricula);
-            printf("CR: %.2f ", imprime.cr);
-            printf("\n");
-                   
+            j = fread(&imprime, sizeof(aluno),1,f);
+            if(j){
+                printf("Aluno: %s | ", imprime.nome);
+                printf("Idade: %d anos | ", imprime.idade);
+                printf("Curso: %s | ", imprime.curso);
+                printf("Matricula: %d | ", imprime.matricula);
+                printf("CR: %.2f ", imprime.cr);
+                printf("\n");
+            }                 
         }
     }
 
