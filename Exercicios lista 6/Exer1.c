@@ -39,7 +39,7 @@ int valida(data dt){
     return verifica;
 }
 
-int imprime(data dt){
+void imprime(data dt){
     printf("Data: %d/%d/%d", dt.dia, dt.mes, dt.ano);
 }
 
@@ -67,7 +67,7 @@ int main(){
         imprime(dt);
     }
 
-
+    system("pause");
     return 0;
 
 }
